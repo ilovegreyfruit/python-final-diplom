@@ -16,7 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.views.generic.base import RedirectView
+from backend.views import RegisterView, LoginView, ProductListView, BasketView, BasketAddView, BasketRemoveView, ContactView, ContactAddView, ContactRemoveView, ConfirmOrderView, OrderListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('register/', RegisterView.as_view(), name='register'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('products/', ProductListView.as_view(), name='product-list'),
+    path('basket/', BasketView.as_view(), name='basket'),
+    path('basket/add/', BasketAddView.as_view(), name='basket-add'),
+    path('basket/remove/', BasketRemoveView.as_view(), name='basket-remove'),
+    path('contacts/', ContactView.as_view(), name='contacts'),
+    path('contacts/add/', ContactAddView.as_view(), name='contacts-add'),
+    path('contacts/remove/<int:pk>/', ContactRemoveView.as_view(), name='contacts-remove'),
+    path('order/confirm/', ConfirmOrderView.as_view(), name='confirm-order'),
+    path('orders/', OrderListView.as_view(), name='order-list'),
+    path("", RedirectView.as_view(url="/products/", permanent=False)),
+
 ]

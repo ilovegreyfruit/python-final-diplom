@@ -4,7 +4,9 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_rest_passwordreset.tokens import get_token_generator
-
+from django.core.mail import send_mail
+from rest_framework.views import APIView
+from rest_framework.response import Response
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -26,6 +28,8 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+        extra_fields.setdefault('type', 'shop')
         return self._create_user(email, password, **extra_fields)
 
 class User(AbstractUser):
